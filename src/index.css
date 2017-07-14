@@ -3,3 +3,21 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+input[type=text] {
+    width: 20%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 10px;
+  }
+
+.search {
+  margin-top: 5%;
+  text-align: center;
+}
+
+h1 {
+  color: #f07452;
+}
