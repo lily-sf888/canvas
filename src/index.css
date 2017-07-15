@@ -21,3 +21,12 @@ input[type=text] {
 h1 {
   color: #f07452;
 }
+
+li {
+  list-style: none;
+}
+
+a:hover {
+  color: blue;
+  cursor: pointer;
+}

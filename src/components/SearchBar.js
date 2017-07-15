@@ -8,10 +8,12 @@ export default class SearchBar extends Component {
     super(props);
     this.state = {
       value: '',
-      results: null
+      results: null,
+      relatedValue: null
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.relatedSearch = this.relatedSearch.bind(this);
   }
 
   handleChange(e) {
@@ -44,16 +46,20 @@ export default class SearchBar extends Component {
 
   }
 
+  relatedSearch(data) {
+  
+  }
+
   render() {
     let results
     let drugGroup
     if (this.state.results) {
-      results = this.state.results;
-      console.log(results)
-      //drugGroup = results.drugGroup.conceptGroup[1].conceptProperties[0].synonym
+    results = this.state.results
+    console.log(results)
+
       drugGroup = results.drugGroup.conceptGroup[1].conceptProperties.map((drug, index) => {
         return (
-          <li key={index}>{drug.synonym}</li>
+          <li key={index}><a onClick={this.relatedSearch}>{drug.synonym}</a></li>
         )
       })
     }
@@ -69,11 +75,8 @@ export default class SearchBar extends Component {
              onKeyPress={this.handleKeyPress}
            />
          </form>
-         {
-           results &&
+         {results && <ul>{drugGroup}</ul>}
 
-           <ul>{drugGroup}</ul>
-         }
        </div>
     )
   }
