@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import fetch from 'isomorphic-fetch';
 import "es6-promise/auto";
+import SearchResults from './SearchResults';
 
 export default class SearchBar extends Component {
   constructor(props) {
@@ -10,67 +11,65 @@ export default class SearchBar extends Component {
       results: null
     }
     this.handleChange = this.handleChange.bind(this);
-    //this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   handleChange(e) {
     this.setState({value: e.target.value});
-
   }
 
-  // handleKeyPress(e) {
-  //   if (e.key === 'Enter') {
-  //     e.preventDefault();
-  //
-  //
-  //     var url = 'https://rxnav.nlm.nih.gov/REST/drugs.json?name=alavert'
-  //
-  //       fetch(url)
-  //       .then(function(response) {
-  //         if (response.status >= 400) {
-  //           throw new Error("Bad response from server");
-  //         }
-  //         return response.json();
-  //       })
-  //       .then(function(data) {
-  //         console.log('new data', data.drugGroup.conceptGroup[1].conceptProperties);
-  //         this.setState({results: data})
-  //       })
-  //     }
-  //
-  //   }
-  //
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const searchText = this.state.value;
+      const url = `https://rxnav.nlm.nih.gov/REST/drugs.json?name=${searchText}`;
 
-
-
-  componentDidMount() {
-
-    var url = 'https://rxnav.nlm.nih.gov/REST/drugs.json?name=alavert'
-    var that = this;
-    fetch(url)
-    .then(function(response) {
-      if (response.status >= 400) {
-        throw new Error("Bad response from server");
+        fetch(url)
+        .then((response) => {
+          if (response.status >= 400) {
+            throw new Error("Bad response from server");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          this.handleData(data);
+        })
       }
-      return response.json();
-    })
-    .then(function(data) {
-      console.log('new data', data.drugGroup.conceptGroup[1].conceptProperties[2].name);
-      that.setState({results: data})
-    })
+    }
+
+  handleData(data) {
+    this.setState({
+      results: data
+    });
+
   }
 
   render() {
+    let results
+    let drugName
+    if (this.state.results) {
+      results = this.state.results
+      drugName = results.drugGroup.name
+
+    }
+
     return (
-      <form>
-       <input
-         type="text"
-         placeholder="Search..."
-         value={this.state.value}
-         onChange={this.handleChange}
-         onKeyPress={this.handleKeyPress}
-       />
-     </form>
+      <div>
+        <form>
+           <input
+             type="text"
+             placeholder="Search..."
+             value={this.state.value}
+             onChange={this.handleChange}
+             onKeyPress={this.handleKeyPress}
+           />
+         </form>
+         {
+           results &&
+
+           <ul><SearchResults /></ul>
+         }
+       </div>
     )
   }
 }
