@@ -46,11 +46,16 @@ export default class SearchBar extends Component {
 
   render() {
     let results
-    let drugName
+    let drugGroup
     if (this.state.results) {
-      results = this.state.results
-      drugName = results.drugGroup.name
-
+      results = this.state.results;
+      console.log(results)
+      //drugGroup = results.drugGroup.conceptGroup[1].conceptProperties[0].synonym
+      drugGroup = results.drugGroup.conceptGroup[1].conceptProperties.map((drug, index) => {
+        return (
+          <li key={index}>{drug.synonym}</li>
+        )
+      })
     }
 
     return (
@@ -67,7 +72,7 @@ export default class SearchBar extends Component {
          {
            results &&
 
-           <ul><SearchResults /></ul>
+           <ul>{drugGroup}</ul>
          }
        </div>
     )

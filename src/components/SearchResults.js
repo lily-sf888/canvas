@@ -5,7 +5,7 @@ export default class SearchResults extends Component {
   render() {
     
     return (
-      <li>{drugName}</li>
+      <li></li>
     )
   }
 }
