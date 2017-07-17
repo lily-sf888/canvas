@@ -6,7 +6,7 @@ export default class SearchResults extends Component {
 
     const drugGroup = this.props.results.map((drug, index) => {
       return (
-        <li key={index}><a onSelectDrug={() => this.props.onSelectDrug(drug)}>{drug.synonym}</a></li>
+        <li key={index}><a onClick={() => this.props.onSelectDrug(drug)}>{drug.synonym}</a></li>
       )
      })
 

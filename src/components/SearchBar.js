@@ -61,7 +61,6 @@ export default class SearchBar extends Component {
   }
 
   handleClick(drug) {
-    debugger;
     this.relatedSearch(drug)
   }
 
@@ -97,15 +96,7 @@ export default class SearchBar extends Component {
 
     });
   }
-
   render() {
-
-    // const drugGroup =  results ? results.map((drug, index) => {
-    //   return (
-    //     <li key={index}><a onClick={() => this.relatedSearch(drug)}>{drug.synonym}</a></li>
-    //   )
-    //  }) : null;
-
     return (
       <div>
         <form>
@@ -117,7 +108,6 @@ export default class SearchBar extends Component {
              onKeyPress={this.handleKeyPress}
            />
          </form>
-
          {this.state.results &&
            <SearchResults
              results={this.state.results}
