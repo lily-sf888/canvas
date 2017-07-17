@@ -24,6 +24,13 @@ export default class SearchBar extends Component {
   handleKeyPress(e) {
     if (e.key === 'Enter') {
       e.preventDefault();
+      //clearing related results when user enters new search
+      this.setState({
+        ingredients: '',
+        brandNames: '',
+        clinicalNames: ''
+      });
+
       const searchText = this.state.value;
       const url = `https://rxnav.nlm.nih.gov/REST/drugs.json?name=${searchText}`;
 
