@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import fetch from 'isomorphic-fetch';
 import "es6-promise/auto";
+import RelatedResults from './RelatedResults';
 import SearchResults from './SearchResults';
 
 export default class SearchBar extends Component {
@@ -12,6 +13,7 @@ export default class SearchBar extends Component {
   }
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.relatedSearch = this.relatedSearch.bind(this);
   }
 
@@ -58,6 +60,11 @@ export default class SearchBar extends Component {
 
   }
 
+  handleClick(drug) {
+    debugger;
+    this.relatedSearch(drug)
+  }
+
   relatedSearch(drug) {
     const urlIngredients = `https://rxnav.nlm.nih.gov/REST/rxcui/${drug.rxcui}/related.json?tty=IN`;
     const urlBrandnames = `https://rxnav.nlm.nih.gov/REST/rxcui/${drug.rxcui}/related.json?tty=SCD+SBD`;
@@ -92,12 +99,12 @@ export default class SearchBar extends Component {
   }
 
   render() {
-    const results = this.state.results;
-    const drugGroup =  results ? results.map((drug, index) => {
-      return (
-        <li key={index}><a onClick={() => this.relatedSearch(drug)}>{drug.synonym}</a></li>
-      )
-     }) : null;
+
+    // const drugGroup =  results ? results.map((drug, index) => {
+    //   return (
+    //     <li key={index}><a onClick={() => this.relatedSearch(drug)}>{drug.synonym}</a></li>
+    //   )
+    //  }) : null;
 
     return (
       <div>
@@ -111,16 +118,19 @@ export default class SearchBar extends Component {
            />
          </form>
 
-         {results && <div><h2>Search Results</h2><ul>{drugGroup}</ul></div>}
+         {this.state.results &&
+           <SearchResults
+             results={this.state.results}
+             onClick={this.handleClick}
+           />
+         }
          {this.state.ingredients &&
-           <div>
-             <SearchResults
-               ingredients={this.state.ingredients}
-               brandNames={this.state.brandNames}
-               clinicalNames={this.state.clinicalNames}
-             />
-          </div>
-          }
+           <RelatedResults
+             ingredients={this.state.ingredients}
+             brandNames={this.state.brandNames}
+             clinicalNames={this.state.clinicalNames}
+           />
+         }
        </div>
     )
   }
