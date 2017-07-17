@@ -8,16 +8,17 @@ export default class SearchBar extends Component {
     super(props);
     this.state = {
       value: '',
-      results: null,
-      relatedResults: null
-    }
+      results: null
+  }
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.relatedSearch = this.relatedSearch.bind(this);
   }
 
   handleChange(e) {
-    this.setState({value: e.target.value});
+    this.setState({
+      value: e.target.value
+    });
   }
 
   handleKeyPress(e) {
@@ -40,8 +41,12 @@ export default class SearchBar extends Component {
     }
 
   handleData(data) {
+    if (!data.drugGroup.conceptGroup) return;
+    let dataName = data.drugGroup.conceptGroup[1].conceptProperties
+
     this.setState({
-      results: data
+      results: dataName,
+      value: ''
     });
 
   }
@@ -49,7 +54,6 @@ export default class SearchBar extends Component {
   relatedSearch(drug) {
     const urlIngredients = `https://rxnav.nlm.nih.gov/REST/rxcui/${drug.rxcui}/related.json?tty=IN`;
     const urlBrandnames = `https://rxnav.nlm.nih.gov/REST/rxcui/${drug.rxcui}/related.json?tty=SCD+SBD`;
-    //console.log('related', relatedUrl)
 
     const promiseIngredients = fetch(urlIngredients)
       .then((response) => {
@@ -70,40 +74,23 @@ export default class SearchBar extends Component {
       const ingredients = values[0].relatedGroup.conceptGroup[0].conceptProperties;
       const brandNames = values[1].relatedGroup.conceptGroup[0].conceptProperties;
       const clinicalNames = values[1].relatedGroup.conceptGroup[1].conceptProperties;
-      debugger;
-      // this.handleRelatedData(data);
+
+      this.setState({
+        ingredients,
+        brandNames,
+        clinicalNames
+      });
+
     });
-  }
-
-  handleRelatedData(data) {
-    // let relatedData = data.relatedGroup.conceptGroup[0].conceptProperties
-    // //console.log(relatedData.relatedGroup.conceptGroup[0].conceptProperties)
-    //
-    // this.setState({
-    //   relatedResults: relatedData
-    // });
-
   }
 
   render() {
     const results = this.state.results;
-    const conceptProperties = results && results.drugGroup.conceptGroup ?
-      results.drugGroup.conceptGroup[1].conceptProperties : [];
-    const drugGroup =  results ? conceptProperties.map((drug, index) => {
+    const drugGroup =  results ? results.map((drug, index) => {
       return (
         <li key={index}><a onClick={() => this.relatedSearch(drug)}>{drug.synonym}</a></li>
       )
      }) : null;
-
-    //  const relatedResults = this.state.relatedResults;
-    //  const drugRelatedGroup = relatedResults ? relatedResults.map((drug, index) => {
-    //    return (
-    //      <li key={index}>{drug.name}</li>
-    //    )
-    //  }) : null;
-
-
-
 
     return (
       <div>
@@ -116,8 +103,17 @@ export default class SearchBar extends Component {
              onKeyPress={this.handleKeyPress}
            />
          </form>
-         {results && <ul>{drugGroup}</ul>}
 
+         {results && <div><h2>Search Results</h2><ul>{drugGroup}</ul></div>}
+         {this.state.ingredients &&
+           <div>
+             <SearchResults
+               ingredients={this.state.ingredients}
+               brandNames={this.state.brandNames}
+               clinicalNames={this.state.clinicalNames}
+             />
+          </div>
+          }
        </div>
     )
   }
