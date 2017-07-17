@@ -121,7 +121,7 @@ export default class SearchBar extends Component {
          {this.state.results &&
            <SearchResults
              results={this.state.results}
-             onClick={this.handleClick}
+             onSelectDrug={this.handleClick}
            />
          }
          {this.state.ingredients &&
