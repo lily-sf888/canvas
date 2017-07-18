@@ -53,15 +53,22 @@ export default class SearchBar extends Component {
   //handling the initial search results
   handleSearchResult(data) {
     //make sure data is there if it is parse it and store it in state
-    if (!data.drugGroup.conceptGroup) return;
-    let dataName = data.drugGroup.conceptGroup[1].conceptProperties
+    if (data.drugGroup.conceptGroup) {
+      let dataName = data.drugGroup.conceptGroup[1].conceptProperties
+
+      this.setState({
+        results: dataName,
+        value: ''
+      });
+   } else {
+    alert('Type in a valid medication')
 
     this.setState({
-      results: dataName,
-      value: ''
+      value: '',
+      results: ''
     });
-
   }
+ }
   //when user clicks on one of the search results, we do two fetches in order
   //to get the ingredient, brand name and clinical name of the chosen drug
   handleRelatedSearch(drug) {
@@ -121,7 +128,7 @@ export default class SearchBar extends Component {
              clinicalNames={this.state.clinicalNames}
            />
          }
-       </div>
+      </div>
     )
   }
 }
