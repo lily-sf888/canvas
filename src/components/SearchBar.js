@@ -11,7 +11,8 @@ export default class SearchBar extends Component {
     super(props);
     this.state = {
       value: '',
-      results: null
+      results: null,
+      errorMessage: null
   }
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -32,7 +33,8 @@ export default class SearchBar extends Component {
     this.setState({
       ingredients: '',
       brandNames: '',
-      clinicalNames: ''
+      clinicalNames: '',
+      errorMessage: null
     });
     //first fetch to get the list of results
     const searchText = this.state.value;
@@ -61,11 +63,11 @@ export default class SearchBar extends Component {
         value: ''
       });
    } else {
-    alert('Type in a valid medication')
 
     this.setState({
       value: '',
-      results: ''
+      results: '',
+      errorMessage: 'Type in a valid medication'
     });
   }
  }
@@ -115,6 +117,9 @@ export default class SearchBar extends Component {
              onKeyPress={this.handleKeyPress}
            />
          </form>
+         {this.state.errorMessage &&
+           <div className="error-message">{this.state.errorMessage}</div>
+         }
          {this.state.results &&
            <SearchResults
              results={this.state.results}
