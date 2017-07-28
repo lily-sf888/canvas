@@ -4,9 +4,14 @@ This app allows the user to find all generic and branded drugs that contain the 
 
 For example type in Tylenol, select from the search results. See the active ingredients and related brand and clinical names for the drug.
 
-The[RxNormAPI]
-(https://rxnav.nlm.nih.gov/RxNormAPIREST.html#label:functions) was used to perform the search functionality of this app.
+The [RxNormAPI](https://rxnav.nlm.nih.gov/RxNormAPIREST.html#label:functions) was used to perform the search functionality of this app.
 
+### To run this app locally
+
+After cloning this repo, in your terminal run
+`cd canvas`
+`npm install`
+`npm start`
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
