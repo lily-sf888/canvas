@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 //component for displaying related medication results
-export default class RelatedResults extends Component {
-  render() {
-    const listIngredients = this.props.ingredients.map((item, index) =>
+const RelatedResults = ({ingredients, brandNames, clinicalNames}) => {
+    const listIngredients = ingredients.map((item, index) =>
       <div key={index}>{item.name}</div>
     )
-    const listBrandNames = this.props.brandNames.map((item, index) =>
+    const listBrandNames = brandNames.map((item, index) =>
       <div key={index}>{item.name}</div>
     )
-    const listClinicalNames = this.props.clinicalNames.map((item, index) =>
+    const listClinicalNames = clinicalNames.map((item, index) =>
       <div key={index}>{item.name}</div>
     )
     return (
@@ -19,5 +18,6 @@ export default class RelatedResults extends Component {
         <div><h3>Clinical Name</h3>{listClinicalNames}</div>
       </div>
     )
-  }
 }
+
+export default RelatedResults;
