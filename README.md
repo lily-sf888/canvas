@@ -1,3 +1,13 @@
+## Related Medication Search
+
+This app allows the user to find all generic and branded drugs that contain the same active ingredients as a referenced drug.
+
+For example type in Tylenol, select from the search results. See the active ingredients and related brand and clinical names for the drug.
+
+The[RxNormAPI]
+(https://rxnav.nlm.nih.gov/RxNormAPIREST.html#label:functions) was used to perform the search functionality of this app.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
@@ -1760,7 +1770,7 @@ If you’re using [Apache HTTP Server](https://httpd.apache.org/), you need to c
     RewriteRule ^ index.html [QSA,L]
 ```
 
-It will get copied to the `build` folder when you run `npm run build`. 
+It will get copied to the `build` folder when you run `npm run build`.
 
 If you’re using [Apache Tomcat](http://tomcat.apache.org/), you need to follow [this Stack Overflow answer](https://stackoverflow.com/a/41249464/4878474).
 
